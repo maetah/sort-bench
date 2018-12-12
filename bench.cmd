@@ -1,0 +1,1 @@
+@ cargo test > bench.txt && cargo bench >> bench.txt

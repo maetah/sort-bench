@@ -1,0 +1,5 @@
+.gitattributes
+/bench.txt
+/Cargo.lock
+/target
+**/*.rs.bk
