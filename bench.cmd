@@ -1,1 +1,1 @@
-@ cargo test > bench.txt && cargo bench >> bench.txt
+@ cargo test > bench.txt && for /l %%i in (1, 1, %1)  do @ cargo bench >> bench.txt

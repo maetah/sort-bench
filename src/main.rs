@@ -4,15 +4,23 @@ extern crate test;
 
 mod sort;
 
-macro_rules! xs {
-    () => {
-        [9, 1, 0, 5, 6, 8, 4, 2, 7, 3]
-    }
-}
+macro_rules! target {
+    ($t : ty, $l : expr) => {
+        use lazy_static::lazy_static;
 
-macro_rules! ys {
-    () => {
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        lazy_static! {
+            static ref XS : Vec<$t> = {
+                use rand::Rng;
+
+                let mut rng = rand::prelude::thread_rng();
+                std::iter::repeat_with(|| rng.gen()).take($l).collect()
+            };
+            static ref YS : Vec<$t> = {
+                let mut ys = XS.clone();
+                ys.sort();
+                ys
+            };
+        }
     }
 }
 
@@ -20,7 +28,7 @@ macro_rules! test {
     ($f : ident, $xs : expr, $ys : expr) => {
         #[test]
         fn $f() {
-            let mut xs = $xs;
+            let mut xs = $xs.clone();
             super::sort::$f(&mut xs);
             assert_eq!(xs, $ys);
         }
@@ -31,7 +39,7 @@ macro_rules! benchmark {
     ($f : ident, $xs : expr) => {
         #[bench]
         fn $f(b : &mut super::test::Bencher) {
-            let mut xs = $xs;
+            let mut xs = $xs.clone();
             b.iter(|| super::sort::insertion(&mut xs));
         }
     }
@@ -41,7 +49,7 @@ macro_rules! tests {
     ($( $f : ident ),*) => {
         #[cfg(test)]
         mod tests {
-            $( test!($f, xs!(), ys!()); )*
+            $( test!($f, *super::XS, *super::YS); )*
         }
     }
 }
@@ -50,10 +58,11 @@ macro_rules! benchmarks {
     ($( $f : ident ),*) => {
         #[cfg(test)]
         mod benchmarks {
-            $( benchmark!($f, xs!()); )*
+            $( benchmark!($f, *super::XS); )*
         }
     }
 }
 
+target!(i8, 1024);
 tests![bubble, insertion];
 benchmarks![bubble, insertion];
