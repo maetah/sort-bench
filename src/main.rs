@@ -10,14 +10,14 @@ mod i8_32 {
     use super::*;
 
     target!(i8, 32);
-    tests![bubble, insertion];
-    benchmarks![bubble, insertion];
+    tests![bubble, insertion, quick];
+    benchmarks![bubble, insertion, quick];
 }
 
-mod i8_1024 {
+mod i64_1024 {
     use super::*;
 
-    target!(i8, 1024);
-    tests![bubble, insertion];
-    benchmarks![bubble, insertion];
+    target!(i64, 1024);
+    tests![bubble, insertion, quick];
+    benchmarks![bubble, insertion, quick];
 }
