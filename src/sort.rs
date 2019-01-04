@@ -57,6 +57,51 @@ pub fn insertion_sort<T : Ord>(xs : &mut [T]) {
     }
 }
 
+pub fn merge_sort<T : Clone + Copy + Ord>(xs : &mut [T]) {
+    fn merge<T : Copy + Ord>(xs : &mut [T], ys : &[T], zs : &[T]) {
+        let ylen = ys.len();
+        let zlen = zs.len();
+
+        let mut i = 0;
+        let mut j = 0;
+        let mut k = 0;
+        while j < ylen && k < zlen {
+            if ys[j] < zs[k] {
+                xs[i] = ys[j];
+                j += 1;
+            } else {
+                xs[i] = zs[k];
+                k += 1;
+            }
+            i += 1;
+        }
+
+        if j < ylen {
+            xs[i ..].copy_from_slice(&ys[j ..]);
+        }
+
+        if k < zlen {
+            xs[i ..].copy_from_slice(&zs[k ..]);
+        }
+    }
+
+    let len = xs.len();
+
+    let mut ys = xs.to_vec();
+    let mut n = 1;
+    while n < len {
+        let mut i = 0;
+        while i < len {
+            let j = len.min(i + n);
+            let k = len.min(i + 2 * n);
+            merge(&mut ys[i .. k], &xs[i .. j], &xs[j .. k]);
+            xs[i .. k].copy_from_slice(&ys[i .. k]);
+            i += 2 * n;
+        }
+        n *= 2;
+    }
+}
+
 pub fn quicksort<T : Ord>(xs : &mut [T]) {
     fn partition<T : Ord>(xs : &mut [T]) -> usize {
         let len = xs.len();
