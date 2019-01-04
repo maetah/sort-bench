@@ -16,7 +16,7 @@ macro_rules! target {
                 ys
             };
         }
-    }
+    };
 }
 
 #[macro_export]
@@ -28,7 +28,7 @@ macro_rules! test {
             super::sort::$f(&mut xs);
             assert_eq!(xs, $ys);
         }
-    }
+    };
 }
 
 #[macro_export]
@@ -39,7 +39,7 @@ macro_rules! benchmark {
             let mut xs = $xs.clone();
             b.iter(|| super::sort::$f(&mut xs));
         }
-    }
+    };
 }
 
 #[macro_export]
@@ -49,7 +49,7 @@ macro_rules! tests {
         mod tests {
             $( test!($f, *super::XS, *super::YS); )*
         }
-    }
+    };
 }
 
 #[macro_export]
@@ -59,5 +59,5 @@ macro_rules! benchmarks {
         mod benchmarks {
             $( benchmark!($f, *super::XS); )*
         }
-    }
+    };
 }
