@@ -46,3 +46,16 @@ pub fn quick<T : Ord>(xs : &mut [T]) {
         quick(&mut xs[p + 1 .. len]);
     }
 }
+
+pub fn selection<T : Ord>(xs : &mut [T]) {
+    let len = xs.len();
+    for i in 0 .. len {
+        let mut j = i;
+        for k in i + 1 .. len {
+            if xs[j] > xs[k] {
+                j = k;
+            }
+        }
+        xs.swap(i, j);
+    }
+}
