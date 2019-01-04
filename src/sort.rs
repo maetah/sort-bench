@@ -1,4 +1,4 @@
-pub fn bubble<T : Ord>(xs : &mut [T]) {
+pub fn bubble_sort<T : Ord>(xs : &mut [T]) {
     for i in 0 .. xs.len() {
         for j in 0 .. xs.len() {
             if xs[i] < xs[j] {
@@ -8,7 +8,7 @@ pub fn bubble<T : Ord>(xs : &mut [T]) {
     }
 }
 
-pub fn insertion<T : Ord>(xs : &mut [T]) {
+pub fn insertion_sort<T : Ord>(xs : &mut [T]) {
     for i in 0 .. xs.len() - 1 {
         for j in (0 .. i + 1).rev() {
             if xs[j] > xs[j + 1] {
@@ -20,7 +20,7 @@ pub fn insertion<T : Ord>(xs : &mut [T]) {
     }
 }
 
-pub fn quick<T : Ord>(xs : &mut [T]) {
+pub fn quicksort<T : Ord>(xs : &mut [T]) {
     fn partition<T : Ord>(ys : &mut [T]) -> usize {
         let len = ys.len();
         let last = len - 1;
@@ -47,7 +47,7 @@ pub fn quick<T : Ord>(xs : &mut [T]) {
     }
 }
 
-pub fn selection<T : Ord>(xs : &mut [T]) {
+pub fn selection_sort<T : Ord>(xs : &mut [T]) {
     let len = xs.len();
     for i in 0 .. len {
         let mut j = i;
