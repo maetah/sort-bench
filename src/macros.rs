@@ -36,8 +36,10 @@ macro_rules! benchmark {
     ($f : ident, $xs : expr) => {
         #[bench]
         fn $f(b : &mut super::test::Bencher) {
-            let mut xs = $xs.clone();
-            b.iter(|| super::sort::$f(&mut xs));
+            b.iter(|| {
+                let mut xs = $xs.clone();
+                super::sort::$f(&mut xs)
+            });
         }
     };
 }
